@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Hoa
  *
@@ -36,13 +34,18 @@ declare(strict_types=1);
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Ustring\Bin;
+namespace igorora\Ustring\Bin;
 
-use Hoa\Console;
-use Hoa\Ustring;
+use igorora\Console;
+use igorora\Ustring;
 
 /**
- * Get a character from its code. Please, see Hoa\Ustring\Ustring::fromCode.
+ * Class igorora\Ustring\Bin\Fromcode.
+ *
+ * Get a character from its code. Please, see igorora\Ustring\Ustring::fromCode.
+ *
+ * @copyright  Copyright © 2007-2017 Hoa community
+ * @license    New BSD License
  */
 class Fromcode extends Console\Dispatcher\Kit
 {
@@ -61,8 +64,10 @@ class Fromcode extends Console\Dispatcher\Kit
 
     /**
      * The entry method.
+     *
+     * @return  int
      */
-    public function main(): ?int
+    public function main()
     {
         $base = 16;
 
@@ -91,13 +96,15 @@ class Fromcode extends Console\Dispatcher\Kit
 
         echo $char;
 
-        return 0;
+        return;
     }
 
     /**
      * The command usage.
+     *
+     * @return  int
      */
-    public function usage(): void
+    public function usage()
     {
         echo
             'Usage   : ustring:fromcode <char>', "\n",
@@ -106,6 +113,8 @@ class Fromcode extends Console\Dispatcher\Kit
                 'b'    => 'Specify the base of the code (16 by default).',
                 'help' => 'This help.'
             ]), "\n";
+
+        return;
     }
 }
 

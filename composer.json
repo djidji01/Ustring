@@ -1,48 +1,39 @@
 {
-    "name"       : "hoa/ustring",
-    "description": "The Hoa\\Ustring library.",
+    "name"       : "igorora/ustring",
+    "description": "The igorora/ustring fork from Hoa/ustring library.",
     "type"       : "library",
-    "keywords"   : ["library", "string", "unicode", "search"],
-    "homepage"   : "https://hoa-project.net/",
+    "keywords"   : ["library", "ustring"],
     "license"    : "BSD-3-Clause",
     "authors"    : [
         {
-            "name" : "Ivan Enderlin",
-            "email": "ivan.enderlin@hoa-project.net"
-        },
-        {
-            "name"    : "Hoa community",
-            "homepage": "https://hoa-project.net/"
+            "name": "Djibril MBARUSHIMANA",
+            "email": "djidji01@gmail.com"
         }
     ],
     "support": {
-        "email" : "support@hoa-project.net",
-        "irc"   : "irc://chat.freenode.net/hoaproject",
-        "forum" : "https://users.hoa-project.net/",
-        "docs"  : "https://central.hoa-project.net/Documentation/Library/Ustring",
-        "source": "https://central.hoa-project.net/Resource/Library/Ustring"
     },
+    "minimum-stability": "dev",
     "require": {
         "php"            : ">=7.1",
-        "hoa/consistency": "dev-master",
-        "hoa/exception"  : "dev-master"
+        "igorora/consistency": "dev-main",
+        "igorora/exception"  : "dev-main"
     },
     "require-dev": {
-        "hoa/test": "dev-master"
+        "igorora/test": "dev-main"
     },
     "autoload": {
         "psr-4": {
-            "Hoa\\Ustring\\"     : "Source",
-            "Hoa\\Ustring\\Bin\\": "Bin"
+            "igorora\\Ustring\\"     : "Source",
+            "igorora\\Ustring\\Bin\\": "Bin"
         }
     },
     "suggest": {
-        "ext-iconv": "ext/iconv must be present (or a third implementation) to use Hoa\\Ustring::transcode().",
-        "ext-intl" : "To get a better Hoa\\Ustring::toAscii() and Hoa\\Ustring::compareTo()."
+        "ext-iconv": "ext/iconv must be present (or a third implementation) to use igorora\\Ustring::transcode().",
+        "ext-intl" : "To get a better igorora\\Ustring::toAscii() and igorora\\Ustring::compareTo()."
     },
     "extra"     : {
         "branch-alias": {
-            "dev-master": "4.x-dev"
+            "dev-main": "4.x-dev"
         }
     }
 }

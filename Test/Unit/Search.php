@@ -36,10 +36,10 @@ declare(strict_types=1);
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Ustring\Test\Unit;
+namespace igorora\Ustring\Test\Unit;
 
-use Hoa\Test;
-use Hoa\Ustring as LUT;
+use igorora\Test;
+use igorora\Ustring as LUT;
 
 /**
  * Test suite of the search algorithms.

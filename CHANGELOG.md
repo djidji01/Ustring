@@ -9,9 +9,9 @@
 
   * Quality: Drop PHP5.4. (Ivan Enderlin, 2016-01-11T09:15:27+01:00)
   * Quality: Run devtools:cs. (Ivan Enderlin, 2016-01-09T09:11:00+01:00)
-  * Core: Remove `Hoa\Core`. (Ivan Enderlin, 2016-01-09T08:27:47+01:00)
-  * Consistency: Use `Hoa\Consistency`. (Ivan Enderlin, 2015-12-08T22:11:40+01:00)
-  * Exception: Use `Hoa\Exception`. (Ivan Enderlin, 2015-11-20T13:19:42+01:00)
+  * Core: Remove `igorora\Core`. (Ivan Enderlin, 2016-01-09T08:27:47+01:00)
+  * Consistency: Use `igorora\Consistency`. (Ivan Enderlin, 2015-12-08T22:11:40+01:00)
+  * Exception: Use `igorora\Exception`. (Ivan Enderlin, 2015-11-20T13:19:42+01:00)
 
 # 3.15.11.09
 
@@ -33,7 +33,7 @@
 # 3.15.05.29
 
   * Update installation section. (Ivan Enderlin, 2015-05-29T14:13:22+02:00)
-  * Rename `Hoa\String` to `Hoa\Ustring`. (Ivan Enderlin, 2015-05-29T12:24:23+02:00)
+  * Rename `igorora\String` to `igorora\Ustring`. (Ivan Enderlin, 2015-05-29T12:24:23+02:00)
   * Move to PSR-1 and PSR-2. (Ivan Enderlin, 2015-05-18T09:49:37+02:00)
 
 # 2.15.03.25
@@ -44,8 +44,8 @@
 # 2.15.02.19
 
   * Add the CHANGELOG.md file. (Ivan Enderlin, 2015-02-19T09:11:32+01:00)
-  * Add `require-dev` with `hoa/test`. (Ivan Enderlin, 2015-01-29T14:55:20+01:00)
-  * Add `hoa string:fromcode` and `hoa string:tocode`. (Ivan Enderlin, 2015-01-23T22:29:55+01:00)
+  * Add `require-dev` with `igorora/test`. (Ivan Enderlin, 2015-01-29T14:55:20+01:00)
+  * Add `igorora string:fromcode` and `igorora string:tocode`. (Ivan Enderlin, 2015-01-23T22:29:55+01:00)
   * Translate the documentation in English. (Ivan Enderlin, 2015-01-23T19:27:04+01:00)
   * Add examples, present new features and update links in the documentation. (Ivan Enderlin, 2015-01-23T19:27:00+01:00)
   * Implement the `getCharWidth` method. (Ivan Enderlin, 2015-01-07T11:00:06+01:00)
@@ -60,7 +60,7 @@
 # 2.14.12.24
 
   * Clean code. (Julien Bianchi, 2014-12-24T08:44:59+01:00)
-  * Add tests for `Hoa\String\Search`. (Ivan Enderlin, 2014-12-23T14:15:21+01:00)
+  * Add tests for `igorora\String\Search`. (Ivan Enderlin, 2014-12-23T14:15:21+01:00)
   * `toBinaryCode` has a better semantics. (Ivan Enderlin, 2014-12-23T14:11:02+01:00)
   * Use hexadecimal everywhere. (Ivan Enderlin, 2014-12-23T12:33:00+01:00)
   * Tests are green now. (Ivan Enderlin, 2014-12-23T12:27:38+01:00)

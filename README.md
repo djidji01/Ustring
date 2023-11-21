@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="https://static.hoa-project.net/Image/Hoa.svg" alt="Hoa" width="250px" />
+  <img src="https://static.igorora-project.net/Image/Hoa.svg" alt="Hoa" width="250px" />
 </p>
 
 ---
 
 <p align="center">
-  <a href="https://travis-ci.org/hoaproject/ustring"><img src="https://img.shields.io/travis/hoaproject/ustring/master.svg" alt="Build status" /></a>
-  <a href="https://coveralls.io/github/hoaproject/ustring?branch=master"><img src="https://img.shields.io/coveralls/hoaproject/ustring/master.svg" alt="Code coverage" /></a>
-  <a href="https://packagist.org/packages/hoa/ustring"><img src="https://img.shields.io/packagist/dt/hoa/ustring.svg" alt="Packagist" /></a>
-  <a href="https://hoa-project.net/LICENSE"><img src="https://img.shields.io/packagist/l/hoa/ustring.svg" alt="License" /></a>
+  <a href="https://travis-ci.org/igororaproject/ustring"><img src="https://img.shields.io/travis/igororaproject/ustring/master.svg" alt="Build status" /></a>
+  <a href="https://coveralls.io/github/igororaproject/ustring?branch=master"><img src="https://img.shields.io/coveralls/igororaproject/ustring/master.svg" alt="Code coverage" /></a>
+  <a href="https://packagist.org/packages/igorora/ustring"><img src="https://img.shields.io/packagist/dt/igorora/ustring.svg" alt="Packagist" /></a>
+  <a href="https://igorora-project.net/LICENSE"><img src="https://img.shields.io/packagist/l/igorora/ustring.svg" alt="License" /></a>
 </p>
 <p align="center">
   Hoa is a <strong>modular</strong>, <strong>extensible</strong> and
@@ -16,30 +16,30 @@
   Moreover, Hoa aims at being a bridge between industrial and research worlds.
 </p>
 
-# Hoa\Ustring
+# igorora\Ustring
 
-[![Help on IRC](https://img.shields.io/badge/help-%23hoaproject-ff0066.svg)](https://webchat.freenode.net/?channels=#hoaproject)
-[![Help on Gitter](https://img.shields.io/badge/help-gitter-ff0066.svg)](https://gitter.im/hoaproject/central)
-[![Documentation](https://img.shields.io/badge/documentation-hack_book-ff0066.svg)](https://central.hoa-project.net/Documentation/Library/Ustring)
-[![Board](https://img.shields.io/badge/organisation-board-ff0066.svg)](https://waffle.io/hoaproject/ustring)
+[![Help on IRC](https://img.shields.io/badge/help-%23igororaproject-ff0066.svg)](https://webchat.freenode.net/?channels=#igororaproject)
+[![Help on Gitter](https://img.shields.io/badge/help-gitter-ff0066.svg)](https://gitter.im/igororaproject/central)
+[![Documentation](https://img.shields.io/badge/documentation-hack_book-ff0066.svg)](https://central.igorora-project.net/Documentation/Library/Ustring)
+[![Board](https://img.shields.io/badge/organisation-board-ff0066.svg)](https://waffle.io/igororaproject/ustring)
 
 This library allows to manipulate UTF-8 strings easily with some search
 algorithms.
 
-[Learn more](https://central.hoa-project.net/Documentation/Library/Ustring).
+[Learn more](https://central.igorora-project.net/Documentation/Library/Ustring).
 
 ## Installation
 
 With [Composer](https://getcomposer.org/), to include this library into
 your dependencies, you need to
-require [`hoa/ustring`](https://packagist.org/packages/hoa/ustring):
+require [`igorora/ustring`](https://packagist.org/packages/igorora/ustring):
 
 ```sh
-$ composer require hoa/ustring '~4.0'
+$ composer require igorora/ustring '~4.0'
 ```
 
 For more installation procedures, please read [the Source
-page](https://hoa-project.net/Source.html).
+page](https://igorora-project.net/Source.html).
 
 ## Testing
 
@@ -52,11 +52,11 @@ $ composer install
 Then, to run all the test suites:
 
 ```sh
-$ vendor/bin/hoa test:run
+$ vendor/bin/igorora test:run
 ```
 
 For more information, please read the [contributor
-guide](https://hoa-project.net/Literature/Contributor/Guide.html).
+guide](https://igorora-project.net/Literature/Contributor/Guide.html).
 
 ## Quick usage
 
@@ -65,14 +65,14 @@ search algorithm.
 
 ### Natural UTF-8 strings manipulation
 
-The `Hoa\Ustring\Ustring` class allows to manipulate easily UTF-8 strings in a
+The `igorora\Ustring\Ustring` class allows to manipulate easily UTF-8 strings in a
 very natural way. This class implements the `\ArrayAccess`, `\Countable` and
 `\IteratorAggregate` interfaces. We will use the following examples:
 
 ```php
-$french   = new Hoa\Ustring\Ustring('Je t\'aime');
-$arabic   = new Hoa\Ustring\Ustring('أحبك');
-$japanese = new Hoa\Ustring\Ustring('私はあなたを愛して');
+$french   = new igorora\Ustring\Ustring('Je t\'aime');
+$arabic   = new igorora\Ustring\Ustring('أحبك');
+$japanese = new igorora\Ustring\Ustring('私はあなたを愛して');
 ```
 
 To get the first character, we will do:
@@ -90,9 +90,9 @@ modulo) indexes.
 
 We note that it cares about text **direction**. Look at `$arabic[0]`, it returns
 `أ` and not `ك`. To get the direction, we can use the
-`Hoa\Ustring\Ustring::getDirection` method (which call the
-`Hoa\Ustring\Ustring::getCharDirection` static method), it returns either
-`Hoa\Ustring\Ustring::LTR` (`0`) or `Hoa\Ustring\Ustring::RTL` (`1`):
+`igorora\Ustring\Ustring::getDirection` method (which call the
+`igorora\Ustring\Ustring::getCharDirection` static method), it returns either
+`igorora\Ustring\Ustring::LTR` (`0`) or `igorora\Ustring\Ustring::RTL` (`1`):
 
 ```php
 var_dump(
@@ -103,7 +103,7 @@ var_dump(
 ```
 
 Text direction is also important for the `append`, `prepend`, `pad`… methods on
-`Hoa\Ustring\Ustring` for example. 
+`igorora\Ustring\Ustring` for example. 
 
 To get the length of a string, we can use the `count` function:
 
@@ -135,21 +135,21 @@ Again, text direction is useful here. For `$arabic`, the iteration is done from
 right to left.
 
 Some static methods are helpful, such as `fromCode`, `toCode` or `isUtf8` on
-`Hoa\Ustring\Ustring`:
+`igorora\Ustring\Ustring`:
 
 ```php
 var_dump(
-    Hoa\Ustring\Ustring::fromCode(0x1a9), // string(2) "Ʃ"
-    Hoa\Ustring\Ustring::toCode('Ʃ'),     // int(425) == 0x1a9
-    Hoa\Ustring\Ustring::isUtf8('Ʃ')      // bool(true)
+    igorora\Ustring\Ustring::fromCode(0x1a9), // string(2) "Ʃ"
+    igorora\Ustring\Ustring::toCode('Ʃ'),     // int(425) == 0x1a9
+    igorora\Ustring\Ustring::isUtf8('Ʃ')      // bool(true)
 );
 ```
 
 We can also transform any text into ASCII:
 
 ```php
-$emoji = new Hoa\Ustring\Ustring('I ❤ Unicode');
-$maths = new Hoa\Ustring\Ustring('∀ i ∈ ℕ');
+$emoji = new igorora\Ustring\Ustring('I ❤ Unicode');
+$maths = new igorora\Ustring\Ustring('∀ i ∈ ℕ');
 
 echo
     $emoji->toAscii(), "\n",
@@ -164,15 +164,15 @@ echo
 
 ### Search algorithm
 
-The `Hoa\Ustring\Search` implements search algorithms on strings.
+The `igorora\Ustring\Search` implements search algorithms on strings.
 
-For example, the `Hoa\Ustring\Search::approximated` method make a search by
+For example, the `igorora\Ustring\Search::approximated` method make a search by
 approximated patterns (with *k* differences based upon the principle diagonal
 monotony). If we search the word `GATAA` in `CAGATAAGAGAA` with 1 difference, we
 will do:
 
 ```php
-$search = Hoa\Ustring\Search::approximated(
+$search = igorora\Ustring\Search::approximated(
     $haystack = 'CAGATAAGAGAA',
     $needle   = 'GATAA',
     $k        = 1
@@ -192,34 +192,34 @@ applications.
 ## Documentation
 
 The
-[hack book of `Hoa\Ustring`](https://central.hoa-project.net/Documentation/Library/Ustring) contains
+[hack book of `igorora\Ustring`](https://central.igorora-project.net/Documentation/Library/Ustring) contains
 detailed information about how to use this library and how it works.
 
 To generate the documentation locally, execute the following commands:
 
 ```sh
-$ composer require --dev hoa/devtools
-$ vendor/bin/hoa devtools:documentation --open
+$ composer require --dev igorora/devtools
+$ vendor/bin/igorora devtools:documentation --open
 ```
 
 More documentation can be found on the project's website:
-[hoa-project.net](https://hoa-project.net/).
+[igorora-project.net](https://igorora-project.net/).
 
 ## Getting help
 
 There are mainly two ways to get help:
 
-  * On the [`#hoaproject`](https://webchat.freenode.net/?channels=#hoaproject)
+  * On the [`#igororaproject`](https://webchat.freenode.net/?channels=#igororaproject)
     IRC channel,
-  * On the forum at [users.hoa-project.net](https://users.hoa-project.net).
+  * On the forum at [users.igorora-project.net](https://users.igorora-project.net).
 
 ## Contribution
 
 Do you want to contribute? Thanks! A detailed [contributor
-guide](https://hoa-project.net/Literature/Contributor/Guide.html) explains
+guide](https://igorora-project.net/Literature/Contributor/Guide.html) explains
 everything you need to know.
 
 ## License
 
 Hoa is under the New BSD License (BSD-3-Clause). Please, see
-[`LICENSE`](https://hoa-project.net/LICENSE) for details.
+[`LICENSE`](https://igorora-project.net/LICENSE) for details.

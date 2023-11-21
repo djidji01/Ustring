@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Hoa
  *
@@ -36,18 +34,25 @@ declare(strict_types=1);
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Ustring\Bin;
+namespace igorora\Ustring\Bin;
 
-use Hoa\Console;
-use Hoa\Ustring;
+use igorora\Console;
+use igorora\Ustring;
 
 /**
- * Transform a character into its code. Please, see Hoa\Ustring\Ustring::toCode.
+ * Class igorora\Ustring\Bin\Tocode.
+ *
+ * Transform a character into its code. Please, see igorora\Ustring\Ustring::toCode.
+ *
+ * @copyright  Copyright © 2007-2017 Hoa community
+ * @license    New BSD License
  */
 class Tocode extends Console\Dispatcher\Kit
 {
     /**
      * Options description.
+     *
+     * @var array
      */
     protected $options = [
         ['base', Console\GetOption::REQUIRED_ARGUMENT, 'b'],
@@ -59,8 +64,10 @@ class Tocode extends Console\Dispatcher\Kit
 
     /**
      * The entry method.
+     *
+     * @return  int
      */
-    public function main(): ?int
+    public function main()
     {
         $base = 16;
 
@@ -89,13 +96,15 @@ class Tocode extends Console\Dispatcher\Kit
 
         echo $code, "\n";
 
-        return 0;
+        return;
     }
 
     /**
      * The command usage.
+     *
+     * @return  int
      */
-    public function usage(): void
+    public function usage()
     {
         echo
             'Usage   : ustring:tocode <char>', "\n",
@@ -104,6 +113,8 @@ class Tocode extends Console\Dispatcher\Kit
                 'b'    => 'Get the code in a specific base (16 by default).',
                 'help' => 'This help.'
             ]), "\n";
+
+        return;
     }
 }
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Hoa
  *
@@ -36,120 +34,163 @@ declare(strict_types=1);
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Hoa\Ustring;
+namespace igorora\Ustring;
 
-use ArrayIterator;
-use Collator;
-use Hoa\Consistency;
-use Transliterator;
+use igorora\Consistency\Consistency;
 
 /**
+ * Class \igorora\Ustring.
+ *
  * This class represents a UTF-8 string.
  * Please, see:
- *   * http://www.ietf.org/rfc/rfc3454.txt,
- *   * http://unicode.org/reports/tr9/,
- *   * http://www.unicode.org/Public/6.0.0/ucd/UnicodeData.txt.
+ *     • http://www.ietf.org/rfc/rfc3454.txt;
+ *     • http://unicode.org/reports/tr9/;
+ *     • http://www.unicode.org/Public/6.0.0/ucd/UnicodeData.txt.
+ *
+ * @copyright  Copyright © 2007-2017 Hoa community
+ * @license    New BSD License
  */
 class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Left-To-Right.
+     *
+     * @const int
      */
-    public const LTR              = 0;
+    const LTR              = 0;
 
     /**
      * Right-To-Left.
+     *
+     * @const int
      */
-    public const RTL              = 1;
+    const RTL              = 1;
 
     /**
      * ZERO WIDTH NON-BREAKING SPACE (ZWNPBSP, aka byte-order mark, BOM).
+     *
+     * @const int
      */
-    public const BOM              = 0xfeff;
+    const BOM              = 0xfeff;
 
     /**
      * LEFT-TO-RIGHT MARK.
+     *
+     * @const int
      */
-    public const LRM              = 0x200e;
+    const LRM              = 0x200e;
 
     /**
      * RIGHT-TO-LEFT MARK.
+     *
+     * @const int
      */
-    public const RLM              = 0x200f;
+    const RLM              = 0x200f;
 
     /**
      * LEFT-TO-RIGHT EMBEDDING.
+     *
+     * @const int
      */
-    public const LRE              = 0x202a;
+    const LRE              = 0x202a;
 
     /**
      * RIGHT-TO-LEFT EMBEDDING.
+     *
+     * @const int
      */
-    public const RLE              = 0x202b;
+    const RLE              = 0x202b;
 
     /**
      * POP DIRECTIONAL FORMATTING.
+     *
+     * @const int
      */
-    public const PDF              = 0x202c;
+    const PDF              = 0x202c;
 
     /**
      * LEFT-TO-RIGHT OVERRIDE.
+     *
+     * @const int
      */
-    public const LRO              = 0x202d;
+    const LRO              = 0x202d;
 
     /**
      * RIGHT-TO-LEFT OVERRIDE.
+     *
+     * @const int
      */
-    public const RLO              = 0x202e;
+    const RLO              = 0x202e;
 
     /**
      * Represent the beginning of the string.
+     *
+     * @const int
      */
-    public const BEGINNING        = 1;
+    const BEGINNING        = 1;
 
     /**
      * Represent the end of the string.
+     *
+     * @const int
      */
-    public const END              = 2;
+    const END              = 2;
 
     /**
      * Split: non-empty pieces is returned.
+     *
+     * @const int
      */
-    public const WITHOUT_EMPTY    = PREG_SPLIT_NO_EMPTY;
+    const WITHOUT_EMPTY    = PREG_SPLIT_NO_EMPTY;
 
     /**
      * Split: parenthesized expression in the delimiter pattern will be captured
      * and returned.
+     *
+     * @const int
      */
-    public const WITH_DELIMITERS  = PREG_SPLIT_DELIM_CAPTURE;
+    const WITH_DELIMITERS  = PREG_SPLIT_DELIM_CAPTURE;
 
     /**
      * Split: offsets of captures will be returned.
+     *
+     * @const int
      */
-    public const WITH_OFFSET      = PREG_OFFSET_CAPTURE | PREG_SPLIT_OFFSET_CAPTURE;
+    const WITH_OFFSET      = 260; //   PREG_OFFSET_CAPTURE
+                                  // | PREG_SPLIT_OFFSET_CAPTURE
 
     /**
      * Group results by patterns.
+     *
+     * @const int
      */
-    public const GROUP_BY_PATTERN = PREG_PATTERN_ORDER;
+    const GROUP_BY_PATTERN = PREG_PATTERN_ORDER;
 
     /**
      * Group results by tuple (set of patterns).
+     *
+     * @const int
      */
-    public const GROUP_BY_TUPLE   = PREG_SET_ORDER;
+    const GROUP_BY_TUPLE   = PREG_SET_ORDER;
 
     /**
      * Current string.
+     *
+     * @var string
      */
     protected $_string          = null;
 
     /**
      * Direction. Please see self::LTR and self::RTL constants.
+     *
+     * @var int
      */
     protected $_direction       = null;
 
     /**
      * Collator.
+     *
+     * @var \Collator
      */
     protected static $_collator = null;
 
@@ -157,8 +198,10 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Construct a UTF-8 string.
+     *
+     * @param   string  $string    String.
      */
-    public function __construct(string $string = null)
+    public function __construct($string = null)
     {
         if (null !== $string) {
             $this->append($string);
@@ -169,24 +212,31 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Check if ext/mbstring is available.
+     *
+     * @return  bool
      */
-    public static function checkMbString(): bool
+    public static function checkMbString()
     {
         return function_exists('mb_substr');
     }
 
     /**
      * Check if ext/iconv is available.
+     *
+     * @return  bool
      */
-    public static function checkIconv(): bool
+    public static function checkIconv()
     {
         return function_exists('iconv');
     }
 
     /**
      * Append a substring to the current string, i.e. add to the end.
+     *
+     * @param   string  $substring    Substring to append.
+     * @return  \igorora\Ustring
      */
-    public function append(string $substring): self
+    public function append($substring)
     {
         $this->_string .= $substring;
 
@@ -195,8 +245,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Prepend a substring to the current string, i.e. add to the start.
+     *
+     * @param   string  $substring    Substring to append.
+     * @return  \igorora\Ustring
      */
-    public function prepend(string $substring): self
+    public function prepend($substring)
     {
         $this->_string = $substring . $this->_string;
 
@@ -205,8 +258,14 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Pad the current string to a certain length with another piece, aka piece.
+     *
+     * @param   int     $length    Length.
+     * @param   string  $piece     Piece.
+     * @param   int     $side      Whether we append at the end or the beginning
+     *                             of the current string.
+     * @return  \igorora\Ustring
      */
-    public function pad(int $length, string $piece, int $side = self::END): self
+    public function pad($length, $piece, $side = self::END)
     {
         $difference = $length - $this->count();
 
@@ -232,8 +291,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
      * Make a comparison with a string.
      * Return < 0 if current string is less than $string, > 0 if greater and 0
      * if equal.
+     *
+     * @param   mixed  $string    String.
+     * @return  int
      */
-    public function compare($string): int
+    public function compare($string)
     {
         if (null === $collator = static::getCollator()) {
             return strcmp($this->_string, (string) $string);
@@ -244,15 +306,17 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Get collator.
+     *
+     * @return  \Collator
      */
-    public static function getCollator(): ?Collator
+    public static function getCollator()
     {
         if (false === class_exists('Collator')) {
             return null;
         }
 
         if (null === static::$_collator) {
-            static::$_collator = new Collator(setlocale(LC_COLLATE, null));
+            static::$_collator = new \Collator(setlocale(LC_COLLATE, null));
         }
 
         return static::$_collator;
@@ -260,8 +324,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Ensure that the pattern is safe for Unicode: add the “u” option.
+     *
+     * @param   string  $pattern    Pattern.
+     * @return  string
      */
-    public static function safePattern(string $pattern): string
+    public static function safePattern($pattern)
     {
         $delimiter = mb_substr($pattern, 0, 1);
         $options   = mb_substr(
@@ -278,14 +345,24 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Perform a regular expression (PCRE) match.
+     *
+     * @param   string  $pattern    Pattern.
+     * @param   array   $matches    Matches.
+     * @param   int     $flags      Please, see constants self::WITH_OFFSET,
+     *                              self::GROUP_BY_PATTERN and
+     *                              self::GROUP_BY_TUPLE.
+     * @param   int     $offset     Alternate place from which to start the
+     *                              search.
+     * @param   bool    $global     Whether the match is global or not.
+     * @return  int
      */
     public function match(
-        string $pattern,
-        array &$matches = null,
-        int $flags      = 0,
-        int $offset     = 0,
-        bool $global    = false
-    ): int {
+        $pattern,
+        &$matches = null,
+        $flags    = 0,
+        $offset   = 0,
+        $global   = false
+    ) {
         $pattern = static::safePattern($pattern);
 
         if (0 === $flags) {
@@ -314,8 +391,14 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Perform a regular expression (PCRE) search and replace.
+     *
+     * @param   mixed   $pattern        Pattern(s).
+     * @param   mixed   $replacement    Replacement(s) (please, see
+     *                                  preg_replace() documentation).
+     * @param   int     $limit          Maximum of replacements. -1 for unbound.
+     * @return  \igorora\Ustring
      */
-    public function replace($pattern, $replacement, int $limit = -1): self
+    public function replace($pattern, $replacement, $limit = -1)
     {
         $pattern = static::safePattern($pattern);
 
@@ -340,12 +423,18 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Split the current string according to a given pattern (PCRE).
+     *
+     * @param   string  $pattern    Pattern (as a regular expression).
+     * @param   int     $limit      Maximum of split. -1 for unbound.
+     * @param   int     $flags      Please, see constants self::WITHOUT_EMPTY,
+     *                              self::WITH_DELIMITERS, self::WITH_OFFSET.
+     * @return  array
      */
     public function split(
-        string $pattern,
-        int $limit = -1,
-        int $flags = self::WITHOUT_EMPTY
-    ): array {
+        $pattern,
+        $limit = -1,
+        $flags = self::WITHOUT_EMPTY
+    ) {
         return preg_split(
             static::safePattern($pattern),
             $this->_string,
@@ -356,16 +445,20 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Iterator over chars.
+     *
+     * @return  \ArrayIterator
      */
-    public function getIterator(): ArrayIterator
+    public function getIterator() : \ArrayIterator
     {
-        return new ArrayIterator(preg_split('#(?<!^)(?!$)#u', $this->_string));
+        return new \ArrayIterator(preg_split('#(?<!^)(?!$)#u', $this->_string));
     }
 
     /**
      * Perform a lowercase folding on the current string.
+     *
+     * @return  \igorora\Ustring
      */
-    public function toLowerCase(): self
+    public function toLowerCase()
     {
         $this->_string = mb_strtolower($this->_string);
 
@@ -375,9 +468,9 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Perform an uppercase folding on the current string.
      *
-     * @return  \Hoa\Ustring
+     * @return  \igorora\Ustring
      */
-    public function toUpperCase(): \Hoa\Ustring
+    public function toUpperCase()
     {
         $this->_string = mb_strtoupper($this->_string);
 
@@ -388,8 +481,12 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
      * Transform a UTF-8 string into an ASCII one.
      * First, try with a transliterator. If not available, will fallback to a
      * normalizer. If not available, will try something homemade.
+     *
+     * @param   bool  $try    Try something if \Normalizer is not present.
+     * @return  \igorora\Ustring
+     * @throws  \igorora\Ustring\Exception
      */
-    public function toAscii(bool $try = false): self
+    public function toAscii($try = false)
     {
         if (0 === preg_match('#[\x80-\xff]#', $this->_string)) {
             return $this;
@@ -439,8 +536,14 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Transliterate the string into another.
      * See self::getTransliterator for more information.
+     *
+     * @param   string  $identifier    Identifier.
+     * @param   int     $start         Start.
+     * @param   int     $end           End.
+     * @return  \igorora\Ustring
+     * @throws  \igorora\Ustring\Exception
      */
-    public function transliterate(string $identifier, int $start = 0, int $end = null): self
+    public function transliterate($identifier, $start = 0, $end = null)
     {
         if (null === $transliterator = static::getTransliterator($identifier)) {
             throw new Exception(
@@ -458,20 +561,28 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Get transliterator.
      * See http://userguide.icu-project.org/transforms/general for $identifier.
+     *
+     * @param   string  $identifier    Identifier.
+     * @return  \Transliterator
      */
-    public static function getTransliterator(string $identifier): ?Transliterator
+    public static function getTransliterator($identifier)
     {
         if (false === class_exists('Transliterator')) {
             return null;
         }
 
-        return Transliterator::create($identifier);
+        return \Transliterator::create($identifier);
     }
 
     /**
      * Strip characters (default \s) of the current string.
+     *
+     * @param   string  $regex    Characters to remove.
+     * @param   int     $side     Whether we trim the beginning, the end or both
+     *                            sides, of the current string.
+     * @return  \igorora\Ustring
      */
-    public function trim(string $regex = '\s', int $side = self::BEGINNING | self::END): self
+    public function trim($regex = '\s', $side = 3 /* static::BEGINNING | static::END */)
     {
         $regex  = '(?:' . $regex . ')+';
         $handle = null;
@@ -496,8 +607,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Compute offset (negative, unbound etc.).
+     *
+     * @param   int        $offset    Offset.
+     * @return  int
      */
-    protected function computeOffset(int $offset): int
+    protected function computeOffset($offset)
     {
         $length = mb_strlen($this->_string);
 
@@ -516,16 +630,23 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Get a specific chars of the current string.
+     *
+     * @param   int     $offset    Offset (can be negative and unbound).
+     * @return  string
      */
-    public function offsetGet($offset): string
+    public function offsetGet($offset)
     {
         return mb_substr($this->_string, $this->computeOffset($offset), 1);
     }
 
     /**
      * Set a specific character of the current string.
+     *
+     * @param   int     $offset    Offset (can be negative and unbound).
+     * @param   string  $value     Value.
+     * @return  void
      */
-    public function offsetSet($offset, $value): self
+    public function offsetSet($offset, $value) : void
     {
         $head   = null;
         $offset = $this->computeOffset($offset);
@@ -538,29 +659,38 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
         $this->_string    = $head . $value . $tail;
         $this->_direction = null;
 
-        return $this;
+        return; // $this;
     }
 
     /**
      * Delete a specific character of the current string.
+     *
+     * @param   int     $offset    Offset (can be negative and unbound).
+     * @return  void
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset($offset) : void
     {
-        $this->offsetSet($offset, null);
+        return $this->offsetSet($offset, null);
     }
 
     /**
      * Check if a specific offset exists.
+     *
+     * @return  bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists($offset) : bool
     {
         return true;
     }
 
     /**
      * Reduce the strings.
+     *
+     * @param   int  $start     Position of first character.
+     * @param   int  $length    Maximum number of characters.
+     * @return  \igorora\Ustring
      */
-    public function reduce(int $start, int $length = null): self
+    public function reduce($start, $length = null)
     {
         $this->_string = mb_substr($this->_string, $start, $length);
 
@@ -569,16 +699,21 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Count number of characters of the current string.
+     *
+     * @return  int
      */
-    public function count(): int
+    public function count() : int
     {
         return mb_strlen($this->_string);
     }
 
     /**
      * Get byte (not character) at a specific offset.
+     *
+     * @param   int     $offset    Offset (can be negative and unbound).
+     * @return  string
      */
-    public function getByteAt(int $offset): string
+    public function getByteAt($offset)
     {
         $length = strlen($this->_string);
 
@@ -597,8 +732,10 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Count number of bytes (not characters) of the current string.
+     *
+     * @return  int
      */
-    public function getBytesLength(): int
+    public function getBytesLength()
     {
         return strlen($this->_string);
     }
@@ -607,8 +744,10 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
      * Get the width of the current string.
      * Useful when printing the string in monotype (some character need more
      * than one column to be printed).
+     *
+     * @return  int
      */
-    public function getWidth(): int
+    public function getWidth()
     {
         return mb_strwidth($this->_string);
     }
@@ -617,8 +756,10 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
      * Get direction of the current string.
      * Please, see the self::LTR and self::RTL constants.
      * It does not yet support embedding directions.
+     *
+     * @return  int
      */
-    public function getDirection(): int
+    public function getDirection()
     {
         if (null === $this->_direction) {
             if (null === $this->_string) {
@@ -636,8 +777,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * Get character of a specific character.
      * Please, see the self::LTR and self::RTL constants.
+     *
+     * @param   string  $char    Character.
+     * @return  int
      */
-    public static function getCharDirection(string $char): int
+    public static function getCharDirection($char)
     {
         $c = static::toCode($char);
 
@@ -734,8 +878,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
      * wide-character code), or return the number of column positions to be
      * occupied by the wide-character code wc, or return -1 (if wc does not
      * correspond to a printable wide-character code).
+     *
+     * @param   string  $char    Character.
+     * @return  int
      */
-    public static function getCharWidth(string $char): int
+    public static function getCharWidth($char)
     {
         $char = (string) $char;
         $c    = static::toCode($char);
@@ -751,7 +898,7 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
         // Non-spacing characters.
         if (0xad !== $c &&
-            0 !== preg_match('#^[\p{Mn}\p{Me}\p{Cf}\x{1160}-\x{11ff}\x{200b}]#u', $char)) {
+            0    !== preg_match('#^[\p{Mn}\p{Me}\p{Cf}\x{1160}-\x{11ff}\x{200b}]#u', $char)) {
             return 0;
         }
 
@@ -761,29 +908,35 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
                 (0x115f >= $c ||                        // Hangul Jamo init. consonants
                  0x2329 === $c || 0x232a === $c ||
                      (0x2e80 <= $c && 0xa4cf >= $c &&
-                      0x303f !== $c) ||                // CJK…Yi
-                     (0xac00 <= $c && 0xd7a3 >= $c) || // Hangul Syllables
-                     (0xf900 <= $c && 0xfaff >= $c) || // CJK Compatibility Ideographs
-                     (0xfe10 <= $c && 0xfe19 >= $c) || // Vertical forms
-                     (0xfe30 <= $c && 0xfe6f >= $c) || // CJK Compatibility Forms
-                     (0xff00 <= $c && 0xff60 >= $c) || // Fullwidth Forms
-                     (0xffe0 <= $c && 0xffe6 >= $c) ||
+                      0x303f !== $c) ||                 // CJK…Yi
+                     (0xac00  <= $c && 0xd7a3 >= $c) || // Hangul Syllables
+                     (0xf900  <= $c && 0xfaff >= $c) || // CJK Compatibility Ideographs
+                     (0xfe10  <= $c && 0xfe19 >= $c) || // Vertical forms
+                     (0xfe30  <= $c && 0xfe6f >= $c) || // CJK Compatibility Forms
+                     (0xff00  <= $c && 0xff60 >= $c) || // Fullwidth Forms
+                     (0xffe0  <= $c && 0xffe6 >= $c) ||
                      (0x20000 <= $c && 0x2fffd >= $c) ||
                      (0x30000 <= $c && 0x3fffd >= $c)));
     }
 
     /**
      * Check whether the character is printable or not.
+     *
+     * @param   string  $char    Character.
+     * @return  bool
      */
-    public static function isCharPrintable(string $char): bool
+    public static function isCharPrintable($char)
     {
         return 1 <= static::getCharWidth($char);
     }
 
     /**
      * Get a UTF-8 character from its decimal code representation.
+     *
+     * @param   int  $code    Code.
+     * @return  string
      */
-    public static function fromCode(int $code): string
+    public static function fromCode($code)
     {
         return mb_convert_encoding(
             '&#x' . dechex($code) . ';',
@@ -794,8 +947,11 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Get a decimal code representation of a specific character.
+     *
+     * @param   string  $char    Character.
+     * @return  int
      */
-    public static function toCode(string $char): int
+    public static function toCode($char)
     {
         $char  = (string) $char;
         $code  = ord($char[0]);
@@ -825,11 +981,14 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Get a binary representation of a specific character.
+     *
+     * @param   string  $char    Character.
+     * @return  string
      */
-    public static function toBinaryCode(string $char): string
+    public static function toBinaryCode($char)
     {
         $char = (string) $char;
-        $out  = '';
+        $out  = null;
 
         for ($i = 0, $max = strlen($char); $i < $max; ++$i) {
             $out .= vsprintf('%08b', ord($char[$i]));
@@ -840,8 +999,14 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Transcode.
+     *
+     * @param   string  $string    String.
+     * @param   string  $from      Original encoding.
+     * @param   string  $to        Final encoding.
+     * @return  string
+     * @throws  \igorora\Ustring\Exception
      */
-    public static function transcode(string $string, string $from, string $to = 'UTF-8'): string
+    public static function transcode($string, $from, $to = 'UTF-8')
     {
         if (false === static::checkIconv()) {
             throw new Exception(
@@ -856,24 +1021,31 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 
     /**
      * Check if a string is encoded in UTF-8.
+     *
+     * @param   string  $string    String.
+     * @return  bool
      */
-    public static function isUtf8(string $string): bool
+    public static function isUtf8($string)
     {
         return (bool) preg_match('##u', $string);
     }
 
     /**
      * Copy current object string
+     *
+     * @return \igorora\Ustring
      */
-    public function copy(): self
+    public function copy()
     {
         return clone $this;
     }
 
     /**
      * Transform the object as a string.
+     *
+     * @return  string
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->_string;
     }
@@ -882,7 +1054,7 @@ class Ustring implements \ArrayAccess, \Countable, \IteratorAggregate
 /**
  * Flex entity.
  */
-Consistency::flexEntity(Ustring::class);
+Consistency::flexEntity('igorora\Ustring\Ustring');
 
 if (false === Ustring::checkMbString()) {
     throw new Exception(
